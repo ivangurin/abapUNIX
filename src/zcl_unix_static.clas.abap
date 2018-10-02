@@ -1,84 +1,83 @@
-class zcl_unix_static definition
+class ZCL_UNIX_STATIC definition
   public
   final
   create public .
 
 *"* public components of class ZCL_UNIX_STATIC
 *"* do not include other source files here!!!
-  public section.
+public section.
+  type-pools ABAP .
 
-    class-methods class_constructor .
-    type-pools abap .
-    class-methods run
-      importing
-        !i_command       type simple
-        !i_params        type simple optional
-        !i_rfc           type abap_bool default abap_true
-      returning
-        value(et_result) type stringtab
-      raising
-        zcx_generic .
-    class-methods list
-      importing
-        !i_path          type data
-      returning
-        value(et_result) type stringtab
-      raising
-        zcx_generic .
-    class-methods copy
-      importing
-        !i_from type data
-        !i_to   type data
-      raising
-        zcx_generic .
-    class-methods delete
-      importing
-        !i_path          type data
-      returning
-        value(et_result) type stringtab
-      raising
-        zcx_generic .
-    class-methods is_file_exist
-      importing
-        !i_path        type string
-      returning
-        value(e_exist) type abap_bool
-      raising
-        zcx_generic .
-    class-methods is_directory_exist
-      importing
-        !i_path        type simple
-      returning
-        value(e_exist) type abap_bool
-      raising
-        zcx_generic .
-    class-methods create_directory
-      importing
-        !i_path type simple
-      raising
-        zcx_generic .
-    class-methods delete_directory
-      importing
-        !i_path type data
-      raising
-        zcx_generic .
-    class-methods chmod
-      importing
-        !i_path      type simple
-        !i_recursive type abap_bool default abap_true
-        !i_owner     type c default '7'
-        !i_group     type c default '7'
-        !i_anybody   type c default '7'
-      raising
-        zcx_generic .
+  class-methods RUN
+    importing
+      !I_COMMAND type SIMPLE
+      !I_PARAMS type SIMPLE optional
+      !I_RFC type ABAP_BOOL default ABAP_TRUE
+    returning
+      value(ET_RESULT) type STRINGTAB
+    raising
+      ZCX_GENERIC .
+  class-methods LIST
+    importing
+      !I_PATH type DATA
+    returning
+      value(ET_RESULT) type STRINGTAB
+    raising
+      ZCX_GENERIC .
+  class-methods COPY
+    importing
+      !I_FROM type DATA
+      !I_TO type DATA
+    raising
+      ZCX_GENERIC .
+  class-methods DELETE
+    importing
+      !I_PATH type DATA
+    returning
+      value(ET_RESULT) type STRINGTAB
+    raising
+      ZCX_GENERIC .
+  class-methods IS_FILE_EXIST
+    importing
+      !I_PATH type STRING
+    returning
+      value(E_EXIST) type ABAP_BOOL
+    raising
+      ZCX_GENERIC .
+  class-methods IS_DIRECTORY_EXIST
+    importing
+      !I_PATH type SIMPLE
+    returning
+      value(E_EXIST) type ABAP_BOOL
+    raising
+      ZCX_GENERIC .
+  class-methods CREATE_DIRECTORY
+    importing
+      !I_PATH type SIMPLE
+    raising
+      ZCX_GENERIC .
+  class-methods DELETE_DIRECTORY
+    importing
+      !I_PATH type DATA
+    raising
+      ZCX_GENERIC .
+  class-methods CHMOD
+    importing
+      !I_PATH type SIMPLE
+      !I_RECURSIVE type ABAP_BOOL default ABAP_TRUE
+      !I_OWNER type C default '7'
+      !I_GROUP type C default '7'
+      !I_ANYBODY type C default '7'
+    raising
+      ZCX_GENERIC .
   protected section.
 *"* protected components of class ZATMCL_UNIX_STATIC
 *"* do not include other source files here!!!
-  private section.
+private section.
+
 *"* private components of class ZCL_UNIX_STATIC
 *"* do not include other source files here!!!
-
-    class-data dest type rfcdest .
+  class-data DEST type RFCDEST value 'NONE' ##NO_TEXT.
 ENDCLASS.
 
 
@@ -97,13 +96,6 @@ CLASS ZCL_UNIX_STATIC IMPLEMENTATION.
     run(
       i_command = 'chmod'
       i_params  = l_params ).
-
-  endmethod.
-
-
-  method class_constructor.
-
-    dest = 'NONEs'.
 
   endmethod.
 
@@ -177,9 +169,10 @@ CLASS ZCL_UNIX_STATIC IMPLEMENTATION.
     concatenate '-f' i_path into l_params separated by space.
 
     data lt_result type stringtab.
-    lt_result = run(
-      i_command = 'test'
-      i_params  = l_params ).
+    lt_result =
+      run(
+        i_command = 'test'
+        i_params  = l_params ).
 
     if lt_result is initial.
       e_exist = abap_true.
